@@ -1,4 +1,4 @@
-const Detalle = require('../models/detalle.js');
+const { Detalle, sequelize } = require('../models/detalle.js');
 
 // BY SEQUELIZE SEARCH
 exports.getAllDetails = async (req, res, next) => {

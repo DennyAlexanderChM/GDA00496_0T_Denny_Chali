@@ -1,9 +1,9 @@
-const { Categorias, sequelize } = require('../models/categoria.js');
+const { Categoria, sequelize } = require('../models/categoria.js');
 
 // BY SEQUELIZE SEARCH
 exports.getAllCategories = async (req, res, next) => {
   try {
-    const categories = await Categorias.findAll();
+    const categories = await Categoria.findAll();
     res.json(categories);
   } catch (err) {
     next(err);

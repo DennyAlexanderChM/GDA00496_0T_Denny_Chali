@@ -10,10 +10,11 @@ exports.getAllStates = async (req, res, next) => {
   }
 };
 
-// JSON FORMATO --> METODO POST // CREAR NUEVO ESTADO
-// {
-//   "nombre_estado": "Add your name in the body"
-// }
+/* JSON FORMATO --> METODO POST // CREAR NUEVO ESTADO
+{
+    "nombre_estado": "Add your name in the body"
+}
+*/
 exports.createState = async (req, res, next) => {
   try {
     // OBTENER NOMBRE
@@ -32,10 +33,12 @@ exports.createState = async (req, res, next) => {
   }
 };
 
-// {
-//   "id_estado": 7,
-//   "nombre_estado": "Cancelado"
-// }
+/* JSON FORMATO --> METODO POST // CREAR NUEVO ESTADO
+{   
+    "estado_ID": 1,
+    "nombre_estado": "Add your name in the body"
+}
+*/
 exports.updateState = async (req, res, next) => {
   try {
     // OBTENER NOMBRE

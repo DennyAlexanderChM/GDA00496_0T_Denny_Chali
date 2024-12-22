@@ -1,4 +1,5 @@
 const { Usuario, sequelize } = require('../models/usuario.js');
+const { encrypt } = require('../functions/bcrypjs.js')
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -11,34 +12,29 @@ exports.getAllUsers = async (req, res, next) => {
 
 /* 
 {
-    "rol_ID": 2,
-    "estado_ID": "1",
-    "correo": "pcousans0@netscape.com",
-    "nombre": "Pyotr Cousans",
+    "rol_ID": rol,
+    "estado_ID": estado,
+    "correo": "pferrettini4@unicef.org",
+    "nombre": "Patrizius Ferrettini",
     "razon_social": "Privado",
-    "nombre_comercial": "Privado",
-    "direccion_entrega": "01259 Barnett Junction",
-    "password": "xZ8%sfia)|X",
-    "telefono": "690-846-3978",
-    "fecha_nacimiento": "2024-01-28"
+    "nombre_comercial": "Divavu",
+    "direccion_entrega": "94 4th Court",
+    "password": "bJ5=1{d",
+    "telefono": "325-480-6955",
+    "fecha_nacimiento": "1998-05-23"
 }
 */
 
 exports.createUser = async (req, res, next) => {
   try {
-    const rolID = req.body.rol_ID;
-    const estadoID = req.body.estado_ID;
-    const correo = req.body.correo;
-    const nombre = req.body.nombre;
-    const razonSocial = req.body.razon_social;
-    const nombreComercial = req.body.nombre_comercial;
-    const direccionEntrega = req.body.direccion_entrega;
-    const password = req.body.password;
-    const telefono = req.body.telefono;
-    const fechaNacimiento = req.body.fecha_nacimiento;
+    // obtenemos las variables del cuerpo del request
+    const { rol_ID, estado_ID, correo, nombre, nombre_comercial, razon_social, password, telefono, fecha_nacimiento, direccion_entrega } = req.body
+    // encriptamos la contraseña
+    const hash_password = await encrypt(password);
+
     // ESPERANDO PROMESA
-    await sequelize.query('EXEC P_CrearNuevoUsuario :RolID, :EstadoID, :Correo, :Nombre, :Razon_Social, :Nombre_Comercial, :Direccion_Entrega, :Password_Usuario, :Telefono, :Fecha_Nacimiento', {
-      replacements: { RolID: rolID, EstadoID: estadoID, Correo: correo, Nombre: nombre, Razon_Social: razonSocial, Nombre_Comercial: nombreComercial, Direccion_Entrega: direccionEntrega, Password_Usuario: password, Telefono: telefono, Fecha_Nacimiento: fechaNacimiento }
+    await sequelize.query('EXEC P_CrearUsuarios :RolID, :EstadoID, :Correo, :Nombre, :Razon_Social, :Nombre_Comercial, :Password, :Telefono, :Fecha_Nacimiento, :Direccion', {
+      replacements: { RolID: rol_ID, EstadoID: estado_ID, Correo: correo, Nombre: nombre, Nombre_Comercial: nombre_comercial, Razon_Social: razon_social, Password: hash_password, Telefono: telefono, Fecha_Nacimiento: fecha_nacimiento, Direccion: direccion_entrega,  }
     });
     // RESPUESTA
     res.json({ "Mensaje": "Correcto" })
@@ -48,4 +44,43 @@ exports.createUser = async (req, res, next) => {
     next(err);
 
   }
+
 };
+
+/*
+{
+    "usuario_ID": id,
+    "rol_ID": rol,
+    "estado_ID": estado,
+    "correo": "pferrettini4@unicef.org",
+    "nombre": "Patrizius Ferrettini",
+    "razon_social": "Privado",
+    "nombre_comercial": "Divavu",
+    "direccion_entrega": "94 4th Court",
+    "password": "bJ5=1{d",
+    "telefono": "325-480-6955",
+    "fecha_nacimiento": "1998-05-23"
+}
+*/
+exports.updateUser = async (req, res, next) => {
+  try {
+    // obtenemos las variables del cuerpo del request
+    const { usuario_ID, rol_ID, estado_ID, correo, nombre, razon_social, nombre_comercial, direccion_entrega, password, telefono, fecha_nacimiento } = req.body
+    // encriptamos la contraseña
+    const hash_password = await encrypt(password);
+
+    // ESPERANDO PROMESA
+    await sequelize.query('EXEC P_ModificarUsuarios :UsuarioID, :RolID, :EstadoID, :Correo, :Nombre, :Nombre_Comercial, :Razon_Social,  :Password_Usuario, :Telefono, :Fecha_Nacimiento, :Direccion', {
+      replacements: { UsuarioID:usuario_ID, RolID: rol_ID, EstadoID: estado_ID, Correo: correo, Nombre: nombre, Razon_Social: razon_social, Nombre_Comercial: nombre_comercial, Direccion: direccion_entrega, Password_Usuario: hash_password, Telefono: telefono, Fecha_Nacimiento: fecha_nacimiento }
+    });
+    // RESPUESTA
+    res.json({ "Mensaje": "Correcto" })
+
+  } catch (err) { // MANEJO DE ERRORES
+
+    next(err);
+
+  }
+
+};
+

@@ -11,20 +11,25 @@ const Categoria = sequelize.define('Categorias',
         },
         FK_UsuariosID: {
             type: DataTypes.INTEGER,
+            allowNull: true,
         },
         Nombre_Categoria: {
             type: DataTypes.STRING,
+            allowNull: true,
         },
         FK_EstadosID: {
             type: DataTypes.INTEGER,
+            allowNull: true,
         },
         Fecha_Creacion: {
-            type: DataTypes.DATE,
+            type: 'DATETIME',
+            allowNull: false,
         },
 
     }, {
+
     tableName: 'CategoriasProductos',
-    timestamps: false,
+    timestamps:false,
 }
 );
 
