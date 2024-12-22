@@ -1,6 +1,6 @@
 const { Producto, sequelize } = require('../models/producto.js');
 
-// BY SEQUELIZE SEARCH
+// Traer todos los productos
 exports.getAllProducts = async (req, res, next) => {
   try {
     const products = await Producto.findAll();
@@ -10,31 +10,29 @@ exports.getAllProducts = async (req, res, next) => {
   }
 };
 
-// {
-//   "CategoriaID": 1,
-//   "UsuarioID": 2,
-//   "Nombre_Producto": "Jeans Celeste",
-//   "Marca": "Levis",
-//   "Codigo": "COD0006",
-//   "Stock": 10,
-//   "EstadoID": 2,
-//   "Precio": 249.99,
-//   "Foto": "C:\\Fotos\\Jeans.png"
-// }
+/*
+http://127.0.0.1:3000/product
+metod: POST
+{
+  categoria_ID: 1,
+  usuario_ID: 2,
+  nombre_producto: "Jeans Celeste",
+  marca: "Levis",
+  codigo: "COD0006",
+  stock: 10,
+  estado_ID: 2,
+  precio: 249.99,
+  foto: "C:\\Fotos\\Jeans.png"
+}
+*/
 exports.createProduct = async (req, res, next) => {
   try {
-    const categoriaID = req.body.categoria_ID;
-    const usuarioID = req.body.usuario_ID;
-    const nombreProducto = req.body.nombre_producto;
-    const marca = req.body.marca;
-    const codigo = req.body.codigo;
-    const stock = req.body.stock;
-    const estadoID = req.body.estado_ID;
-    const precio = req.body.precio;
-    const foto = req.body.foto;
+
+    const { categoria_ID, usuario_ID, nombre_producto, marca, codigo, stock, estado_ID, precio, foto } = req.body;
+
     // ESPERANDO PROMESA
-    await sequelize.query('EXEC P_CrearProducto :CategoriaID, :UsuarioID, :Nombre_Producto, :Marca, :Codigo, :Stock, :EstadoID, :Precio, :Foto', {
-      replacements: { CategoriaID: categoriaID, UsuarioID: usuarioID, Nombre_Producto: nombreProducto, Marca: marca, Codigo: codigo, Stock: stock, EstadoID: estadoID, Precio: precio, Foto: foto }
+    await sequelize.query('EXEC P_CrearProducto :categoria_ID, :usuario_ID, :nombre_producto, :marca, :codigo, :stock, :estado_ID, :precio, :foto', {
+      replacements: { categoria_ID, usuario_ID, nombre_producto, marca, codigo, stock, estado_ID, precio, foto }
     });
     // RESPUESTA
     res.json({ "Mensaje": "Correcto" })
@@ -46,33 +44,29 @@ exports.createProduct = async (req, res, next) => {
   }
 };
 
-// {
-//   "ProductoID": 6,
-//   "CategoriaID": 1,
-//   "UsuarioID": 2,
-//   "Nombre_Producto": "Jeans Celeste",
-//   "Marca": "Levis",
-//   "Codigo": "COD0006",
-//   "Stock": 10,
-//   "EstadoID": 2,
-//   "Precio": 249.99,
-//   "Foto": "C:\\Fotos\\Jeans.png"
-// }
+/*
+http://127.0.0.1:3000/product
+metod: PUT
+{
+  producto_ID: 1,
+  categoria_ID: 1,
+  usuario_ID: 2,
+  nombre_producto: "Jeans Celeste",
+  marca: "Levis",
+  codigo: "COD0006",
+  stock: 10,
+  estado_ID: 2,
+  precio: 249.99,
+  foto: "C:\\Fotos\\Jeans.png"
+}
+*/
 exports.updateProduct = async (req, res, next) => {
   try {
-    const productoID = req.body.producto_ID;
-    const categoriaID = req.body.categoria_ID;
-    const usuarioID = req.body.usuario_ID;
-    const estadoID = req.body.estado_ID;
-    const nombreProducto = req.body.nombre_producto;
-    const marca = req.body.marca;
-    const codigo = req.body.codigo;
-    const stock = req.body.stock;
-    const precio = req.body.precio;
-    const foto = req.body.foto;
+    const { producto_ID, categoria_ID, usuario_ID, nombre_producto, marca, codigo, stock, estado_ID, precio, foto } = req.body;
+
     // ESPERANDO PROMESA
-    await sequelize.query('EXEC P_ModificarProducto :ProductoID, :CategoriaID, :UsuarioID, :EstadoID, :Nombre_Producto, :Marca, :Codigo, :Stock, :Precio, :Foto', {
-      replacements: { ProductoID: productoID, CategoriaID: categoriaID, UsuarioID: usuarioID, EstadoID: estadoID, Nombre_Producto: nombreProducto, Marca: marca, Codigo: codigo, Stock: stock, Precio: precio, Foto: foto }
+    await sequelize.query('EXEC P_ModificarProducto :producto_ID, :categoria_ID, :usuario_ID, :nombre_producto, :marca, :codigo, :stock, :estado_ID, :precio, :foto' , {
+      replacements: { producto_ID, categoria_ID, usuario_ID, nombre_producto, marca, codigo, stock, estado_ID, precio, foto}
     });
     // RESPUESTA
     res.json({ "Mensaje": "Correcto" })

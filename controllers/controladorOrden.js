@@ -1,6 +1,6 @@
 const { Orden, sequelize } = require('../models/orden.js');
 
-// BY SEQUELIZE SEARCH
+// Traer todas las ordenes
 exports.getAllOrder = async (req, res, next) => {
   try {
     const order = await Orden.findAll();
@@ -11,8 +11,8 @@ exports.getAllOrder = async (req, res, next) => {
 };
 
 /*
-http://127.0.0.1:3000/order
-metod: POST
+
+
 [
     {
         "usuario_ID": 5,

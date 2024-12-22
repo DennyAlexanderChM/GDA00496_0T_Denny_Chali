@@ -1,6 +1,6 @@
 const { Estado, sequelize } = require('../models/estados.js');
 
-// BY SEQUELIZE SEARCH
+// Traer todos los estados
 exports.getAllStates = async (req, res, next) => {
   try {
     const states = await Estado.findAll();
@@ -10,7 +10,10 @@ exports.getAllStates = async (req, res, next) => {
   }
 };
 
-/* JSON FORMATO --> METODO POST // CREAR NUEVO ESTADO
+/*
+http://127.0.0.1:3000/state
+metod: POST
+
 {
     "nombre_estado": "Add your name in the body"
 }
@@ -33,7 +36,9 @@ exports.createState = async (req, res, next) => {
   }
 };
 
-/* JSON FORMATO --> METODO POST // CREAR NUEVO ESTADO
+/*
+http://127.0.0.1:3000/state
+metod: PUT
 {   
     "estado_ID": 1,
     "nombre_estado": "Add your name in the body"

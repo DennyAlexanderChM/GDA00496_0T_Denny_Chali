@@ -1,6 +1,6 @@
 const { Categoria, sequelize } = require('../models/categoria.js');
 
-// BY SEQUELIZE SEARCH
+// Traer todas las categorias
 exports.getAllCategories = async (req, res, next) => {
   try {
     const categories = await Categoria.findAll();
@@ -10,6 +10,8 @@ exports.getAllCategories = async (req, res, next) => {
   }
 };
 /*
+http://127.0.0.1:3000/category
+metod: POST
 {
   "usuario_ID": 2,
   "estado_ID": 1,
@@ -18,13 +20,12 @@ exports.getAllCategories = async (req, res, next) => {
 */
 exports.createCategory = async (req, res, next) => {
   try {
-    const usuarioID = req.body.usuario_ID;
-    const estadoID = req.body.estado_ID;
-    const nombreCategoria = req.body.nombre_categoria;
+
+    const { usuario_ID, estado_ID, nombre_categoria } = req.body;
 
     // ESPERANDO PROMESA
-    await sequelize.query('EXEC P_CrearCategoriaProducto :UsuarioID, :EstadoID, :Nombre_Categoria', {
-      replacements: { UsuarioID: usuarioID, EstadoID: estadoID, Nombre_Categoria: nombreCategoria }
+    await sequelize.query('EXEC P_CrearCategoriaProducto :usuario_ID, :estado_ID, :nombre_categoria', {
+      replacements: { usuario_ID, estado_ID, nombre_categoria }
     });
     // RESPUESTA
     res.json({ "Mensaje": "Correcto" })
@@ -37,6 +38,8 @@ exports.createCategory = async (req, res, next) => {
 };
 
 /*
+http://127.0.0.1:3000/category
+metod: PUT
 {
   "categoria_ID": 2,
   "usuario_ID": 2,
@@ -46,14 +49,11 @@ exports.createCategory = async (req, res, next) => {
 */
 exports.updateCategory = async (req, res, next) => {
   try {
-    const categoriaID = req.body.categoria_ID;
-    const usuarioID = req.body.usuario_ID;
-    const estadoID = req.body.estado_ID;
-    const nombreCategoria = req.body.nombre_categoria;
+    const { categoria_ID, usuario_ID, estado_ID, nombre_categoria } = req.body;
 
     // ESPERANDO PROMESA
-    await sequelize.query('EXEC P_ModificarCategoriaProducto :CategoriaID, :UsuarioID, :EstadoID, :Nombre_Categoria', {
-      replacements: { CategoriaID: categoriaID, UsuarioID: usuarioID, EstadoID: estadoID, Nombre_Categoria: nombreCategoria }
+    await sequelize.query('EXEC P_ModificarCategoriaProducto :categoria_ID, :usuario_ID, :estado_ID, :nombre_categoria', {
+      replacements: { categoria_ID, usuario_ID, estado_ID, nombre_categoria }
     });
     // RESPUESTA
     res.json({ "Mensaje": "Correcto" })

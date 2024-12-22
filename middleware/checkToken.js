@@ -1,33 +1,27 @@
-// Import the jsonwebtoken library
-const jwt = require('jsonwebtoken');
+const { validateToken } = require('../functions/generateToken');
 
-const token = async (req, res, next) => {
+const checkToken = async (req, res, next) => {
     try {
-        
+        // Verificar si el token es válido
+        // Se obtiene el token desde el header de la petición
+        const token = req.headers.authorization.split(' ').pop();
+        // Se verifica el token
+        const tokenDecoded = await validateToken(token);
+
+        console.log(tokenDecoded, 'tokenDecoded');
+        // Si el token es válido, se pasa al siguiente middleware
+        if (tokenDecoded) {
+            next();
+        } else {
+            // Si el token no es válido, se envía un error
+            res.status(401).send({ error: 'Token no válido' });
+        }
+
     } catch (error) {
-        
-    }
-    // Define the payload
-    // Import the jsonwebtoken library
-    const jwt = require('jsonwebtoken');
-
-    // Define the secret key (must match the one used to sign the token)
-    const secretKey = 'your_secret_key';
-
-    // Example token (replace with your actual token)
-    const token = 'your_generated_jwt_token';
-
-    // Verify and decode the token
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        console.log('Token is valid!');
-        console.log('Decoded Payload:', decoded);
-    } catch (error) {
-        console.error('Invalid Token:', error.message);
+        // Si el token no es válido, se envía un error
+        res.status(401).send({ error: 'Token no válido' });
     }
 
+};
 
-}
-
-
-module.exports = { token };
+module.exports = { checkToken };

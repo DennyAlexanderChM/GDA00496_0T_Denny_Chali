@@ -10,6 +10,6 @@
 - CRUD / Usuarios (Cliente y usuarios)
 - CRUD / Orden
 - Encriptar Contraseñas
-- Seguridad API (Pendiente)
-
-> Creado método post para cada uno de los elementos de nuestra base de datos, usando sequelize.
+- Seguridad API
+- Corrección de creación de una nueva orden
+- [Base de datos](/src/database/script.sql) actualizada (Procemientos y datos agregados)

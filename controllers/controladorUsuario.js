@@ -11,6 +11,8 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 /* 
+http://127.0.0.1:3000/users
+metod: POST
 {
     "rol_ID": rol,
     "estado_ID": estado,
@@ -48,6 +50,8 @@ exports.createUser = async (req, res, next) => {
 };
 
 /*
+http://127.0.0.1:3000/users
+metod: PUT
 {
     "usuario_ID": id,
     "rol_ID": rol,

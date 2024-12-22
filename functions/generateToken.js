@@ -1,6 +1,6 @@
-// Import the jsonwebtoken library
 const jwt = require('jsonwebtoken');
 
+// Genera el token al iniciar sesión
 const token = async (usuario) => {
     // Define the payload
     const payload = {
@@ -18,9 +18,20 @@ const token = async (usuario) => {
     };
 
     // Sign the token
-    return token = jwt.sign(payload, secretKey, options);
+    return jwt.sign(payload, secretKey, options);
 
 }
 
+// Valida el token reciniendo el token por parametro
+const validateToken = async (token) => {
 
-module.exports = { token };
+    try {
+        // Verificamos el token
+        // Si el token es válido, se retorna el payload
+        return jwt.verify(token, 'wBoRWaFFnWIsjb');
+    } catch (error) {
+        // Si el token no es válido, se envía un null
+        return null;
+    }
+}
+module.exports = { token, validateToken };
